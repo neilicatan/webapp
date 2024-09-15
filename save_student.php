@@ -2,13 +2,14 @@
 include "connectdb.php";
 
 try {
-    $studentno = $_POST['studentno'];
-    $firstname = $_POST['firstname'];
-    $middlename = $_POST['middlename'];
-    $lastname = $_POST['lastname'];
-    $contact = $_POST['contact'];
-    $email = $_POST['email'];
-    $birthdate = $_POST['birthdate'];
+    $studentnum = $_POST["studentnum"];
+    $firstname = $_POST["firstname"];
+    $middlename = $_POST["middlename"];
+    $lastname = $_POST["lastname"];
+    $contact = $_POST["contact"];
+    $email = $_POST["email"];
+    $birthdate = $_POST["birthdate"];
+
 
     // Check if the email already exists
     $stmt = $conn->prepare("SELECT * FROM student WHERE email = :email");
@@ -19,17 +20,25 @@ try {
     } 
 
     // Check if the student number already exists
-    $stmt = $conn->prepare("SELECT * FROM student WHERE studentno = :studentno");
-    $stmt->execute(['studentno' => $studentno]);
+    $stmt = $conn->prepare("SELECT * FROM student WHERE studentnum = :studentnum");
+    $stmt->execute(['studentnum' => $studentnum]);
     if ($stmt->rowCount() > 0) {
         echo json_encode(array("response" => "error", "message" => "Student number already exists."));
         exit;
-    }   
+    } 
+
+    $stmt = $conn->prepare("SELECT * FROM student WHERE contact = :contact");
+    $stmt->execute(['contact' => $contact]);
+    if ($stmt->rowCount() > 0) {
+        echo json_encode(array("response" => "error", "message" => "Phone number already exists."));
+        exit;
+    } 
+
 
     // Insert new user
-    $stmt = $conn->prepare("INSERT INTO student (studentno, firstname, middlename, lastname, contact, email, birthdate) 
-    VALUES (:studentno, :firstname, :middlename, :lastname, :contact, :email, :birthdate)");
-    $stmt->bindParam(':studentno', $studentno);
+    $stmt = $conn->prepare("INSERT INTO student (studentnum,firstname,middlename,lastname,contact,email,birthdate) 
+    VALUES (:studentnum, :firstname, :middlename, :lastname, :contact, :email, :birthdate)");
+    $stmt->bindParam(':studentnum', $studentnum);
     $stmt->bindParam(':firstname', $firstname);
     $stmt->bindParam(':middlename', $middlename);
     $stmt->bindParam(':lastname', $lastname);
@@ -43,7 +52,7 @@ try {
         echo json_encode(array("response" => "error", "message"=> "Registration failed"));
     } 
 
-} catch (PDOException $e) {
-    echo json_encode(array("response" => "error", "message" => "Database error: " . $e->getMessage()));
+}catch (PDOException $e) {
+    echo json_encode(array("response" => "error", "message" => "Database error"));
 }
 ?>

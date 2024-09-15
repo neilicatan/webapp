@@ -261,7 +261,7 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Student Number</label>
-                    <input type="text" class="form-control" placeholder="Student Number" id="studentno" name = "studentno">
+                    <input type="text" class="form-control" placeholder="Student Number" id="studentnum" name = "studentnum">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">First Name</label>
@@ -290,7 +290,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="button" class="btn btn-primary" onclick="btnSave();">Submit</button>
+                  <button type="button" class="btn btn-primary" onclick="Submit();">Submit</button>
                 </div>
               </form>
             </div>
@@ -325,6 +325,7 @@
 <script src="dist/js/adminlte.min.js"></script>
 <!-- Toastr -->
 <script src="plugins/toastr/toastr.min.js"></script>
+
 <!-- Page specific script -->
 
 <script>
@@ -333,20 +334,24 @@ $(function () {
 });
 </script>
 <script>
-  function btnSave() {
-    var studentno = document.getElementById("studentno").value;
+  function Submit() {
+    var studentnum = document.getElementById("studentnum").value;
     var firstname = document.getElementById("firstname").value;
     var middlename = document.getElementById("middlename").value;
     var lastname = document.getElementById("lastname").value;
     var contact = document.getElementById("contact").value;
     var email = document.getElementById("email").value;
     var birthdate = document.getElementById("birthdate").value;
-
+    
+    if (studentnum === "" || firstname === "" || middlename === "" || lastname === "" || contact === "" || email === "" || birthdate === "") {
+        toastr.error("All fields are required.");
+        return;}
+    
     $.ajax({
         type: "POST",
         url: 'save_student.php',
         data: {
-            studentno: studentno,
+            studentnum: studentnum,
             firstname: firstname,
             middlename: middlename,
             lastname: lastname,
@@ -366,8 +371,9 @@ $(function () {
             alert("Error");
         }
     });
+    return false;
     }
-return false;
+
     </script>
 </body>
 </html>
