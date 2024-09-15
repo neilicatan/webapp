@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -262,7 +261,7 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Student Number</label>
-                    <input type="text" class="form-control" placeholder="Enter email" id="studentno" name = "studentno">
+                    <input type="text" class="form-control" placeholder="Student Number" id="studentno" name = "studentno">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">First Name</label>
@@ -278,7 +277,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Contact</label>
-                    <input type="number" class="form-control" placeholder="Contact" id="contach" name = "contact">
+                    <input type="number" class="form-control" placeholder="Contact" id="contact" name = "contact">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Email</label>
@@ -291,7 +290,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="button" class="btn btn-primary" onclick = "btnSave();">Submit</button>
+                  <button type="button" class="btn btn-primary" onclick="btnSave();">Submit</button>
                 </div>
               </form>
             </div>
@@ -334,7 +333,7 @@ $(function () {
 });
 </script>
 <script>
-  {
+  function btnSave() {
     var studentno = document.getElementById("studentno").value;
     var firstname = document.getElementById("firstname").value;
     var middlename = document.getElementById("middlename").value;
@@ -345,7 +344,7 @@ $(function () {
 
     $.ajax({
         type: "POST",
-        url: 'student_save.php',
+        url: 'save_student.php',
         data: {
             studentno: studentno,
             firstname: firstname,
@@ -367,8 +366,8 @@ $(function () {
             alert("Error");
         }
     });
-    return false;
-}
+    }
+return false;
     </script>
 </body>
 </html>

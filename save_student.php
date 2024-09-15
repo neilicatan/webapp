@@ -1,7 +1,7 @@
 <?php 
-include "db.php";
+include "connectdb.php";
 
-try{
+try {
     $studentno = $_POST['studentno'];
     $firstname = $_POST['firstname'];
     $middlename = $_POST['middlename'];
@@ -10,23 +10,25 @@ try{
     $email = $_POST['email'];
     $birthdate = $_POST['birthdate'];
 
-    //check if nag exist na ang email
+    // Check if the email already exists
     $stmt = $conn->prepare("SELECT * FROM student WHERE email = :email");
     $stmt->execute(['email' => $email]);
-    if ($stmt->rowCount() > 0){
-        echo json_encode(array("reponse" => "erorr", "message" => "Email already exists."));
+    if ($stmt->rowCount() > 0) {
+        echo json_encode(array("response" => "error", "message" => "Email already exists."));
         exit;
     } 
+
+    // Check if the student number already exists
     $stmt = $conn->prepare("SELECT * FROM student WHERE studentno = :studentno");
     $stmt->execute(['studentno' => $studentno]);
-    if ($stmt->rowCount() > 0){
-        echo json_encode(array("reponse" => "erorr", "message" => "Email already exists."));
+    if ($stmt->rowCount() > 0) {
+        echo json_encode(array("response" => "error", "message" => "Student number already exists."));
         exit;
     }   
 
-    //insert new user
+    // Insert new user
     $stmt = $conn->prepare("INSERT INTO student (studentno, firstname, middlename, lastname, contact, email, birthdate) 
-    VALUES (:studentno, :firsname, :middlename, :lastname, :contact, :email, :brithdate)");
+    VALUES (:studentno, :firstname, :middlename, :lastname, :contact, :email, :birthdate)");
     $stmt->bindParam(':studentno', $studentno);
     $stmt->bindParam(':firstname', $firstname);
     $stmt->bindParam(':middlename', $middlename);
@@ -41,7 +43,6 @@ try{
         echo json_encode(array("response" => "error", "message"=> "Registration failed"));
     } 
 
-    
 } catch (PDOException $e) {
     echo json_encode(array("response" => "error", "message" => "Database error: " . $e->getMessage()));
 }
