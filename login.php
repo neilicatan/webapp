@@ -88,7 +88,7 @@
               if(obj.response == "success"){
                 toastr.success(obj.message);
                 window.setTimeout(function() {
-                        window.location.href = "dashboard.php";
+                        window.location.href = "student.php";
                     }, 1000);
                   }else{
                 toastr.error(obj.message);

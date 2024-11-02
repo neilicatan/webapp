@@ -53,6 +53,6 @@ try {
     } 
 
 }catch (PDOException $e) {
-    echo json_encode(array("response" => "error", "message" => "Database error"));
+    echo json_encode(array("response" => "error", "message" => "Database error" . $e->getMessage()));
 }
 ?>
